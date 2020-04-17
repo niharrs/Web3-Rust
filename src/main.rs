@@ -9,6 +9,8 @@ fn main() {
     let web3 = web3::Web3::new(transport);
     let accounts = web3.eth().accounts().wait().unwrap();
 
+    let balance_before = web3.eth().balance(accounts[1], None).wait().unwrap();
+
     let tx = TransactionRequest {
         from: accounts[0],
         to: Some(accounts[1]),
@@ -22,5 +24,9 @@ fn main() {
 
     let tx_hash = web3.eth().send_transaction(tx).wait().unwrap();
 
+    let balance_after = web3.eth().balance(accounts[1], None).wait().unwrap();
+
     println!("TX Hash: {:?}", tx_hash);
+    println!("Balance before: {}", balance_before);
+    println!("Balance after: {}", balance_after);
 }
